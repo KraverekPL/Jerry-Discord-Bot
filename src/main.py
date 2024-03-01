@@ -28,19 +28,26 @@ async def ping(ctx):
 
 
 @bot.command(name='fib')
-async def fib(ctx, arg: int = None):
-    logging.info('Invoking fibonacci seq method')
-    if arg is not None:
-        if arg < 100000:
-            result = fibonacci_sequence(arg)
-            await ctx.send(f'{result}')
-            logging.info(f'Invoking fibonacci seq method for n={arg}')
-        else:
-            await ctx.send('Number is too big!')
-            logging.info('Number is too big!')
-    else:
+async def fib(ctx, arg: str = None):
+    if arg is None:
         await ctx.send('Please add one argument, like !fib 100')
-        logging.info('Please add one argument, like !fib 100')
+        logging.debug('Please add one argument, like !fib 100')
+        return
+
+    try:
+        arg = int(arg)
+    except ValueError:
+        await ctx.send('Please send numeric value')
+        logging.debug('Not an integer value found in arg.')
+        return
+
+    if arg < 100000:
+        result = fibonacci_sequence(arg)
+        await ctx.send(f'{result}')
+        logging.info(f'Invoking fibonacci seq method for n={arg}')
+    else:
+        await ctx.send('Number is too big!')
+        logging.debug('Number is too big!')
 
 
 bot.run(botToken)
