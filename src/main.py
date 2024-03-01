@@ -26,6 +26,10 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send('Pong!')
 
+@bot.command(name='cytat')
+async def cytat(ctx):
+    singleQuote = random_quote_generator()
+    await ctx.send(singleQuote)
 
 @bot.command(name='fib')
 async def fib(ctx, arg: str = None):
