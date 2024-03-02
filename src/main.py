@@ -1,3 +1,4 @@
+import datetime
 import sys
 import discord
 import logging
@@ -49,6 +50,27 @@ async def on_message(message):
 @bot.command(name='ping')
 async def ping(ctx):
     await ctx.send('Pong!')
+
+
+@bot.command(name='clear')
+async def clear_messages(ctx, amount: str):
+    if ctx.author.guild_permissions.manage_messages:
+        if 'm' in amount:
+            current_time = datetime.datetime.utcnow()
+            minutes = int(amount.rstrip('m'))
+            past_time = current_time - datetime.timedelta(minutes=minutes)
+            await ctx.channel.purge(before=current_time, after=past_time)
+            logging.info(f'Messages from the last {minutes} minutes have been deleted')
+        else:
+            try:
+                number_of_messages = int(amount)
+                await ctx.channel.purge(limit=number_of_messages + 1)
+                logging.info(f'The last {number_of_messages + 1} messages have been cleared')
+            except ValueError:
+                logging.info(f'Error while parsing to int')
+
+    else:
+        await ctx.send('You are not authorized!')
 
 
 @bot.command(name='cytat')
