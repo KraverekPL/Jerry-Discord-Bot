@@ -1,6 +1,7 @@
 import sys
 import discord
 import logging
+import os
 
 from discord.ext import commands
 from config.configParserTool import bot_token
@@ -17,11 +18,32 @@ intents = discord.Intents.all()
 intents.messages = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
+current_path = os.path.abspath(__file__)
+current_directory = os.path.dirname(os.path.abspath(__file__))
+logging.info(f"__file__ is: {current_path}")
+
+file_path = os.path.join(current_directory, 'resources', 'keywords_responses.txt')
+with open(file_path, 'r') as file:
+    keyword_responses = [line.strip().split(':') for line in file]
 
 
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name} ({bot.user.id})')
+
+
+@bot.event
+async def on_message(message):
+    if message.author.bot:
+        return
+    for keyword, response in keyword_responses:
+        if keyword.lower() in message.content.lower():
+            if random.random() < 0.2:
+                logging.info(f"Keyword response on_message: {keyword.lower()}:{response}")
+                await message.channel.send(response)
+            else:
+                logging.info(f"No response - random.random() decided :)")
+    await bot.process_commands(message)
 
 
 @bot.command(name='ping')
@@ -42,7 +64,6 @@ async def generate_tree_img(ctx):
     embed = discord.Embed(title="Wonderful nature", colour=discord.Colour(0x00FF00))
     embed.set_image(url=image_url)
     await ctx.send(embed=embed)
-
 
 
 @bot.command(name='fib')
