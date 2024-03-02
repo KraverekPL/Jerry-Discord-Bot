@@ -1,40 +1,40 @@
 import datetime
-import sys
 import discord
 import logging
 import os
 
 from discord.ext import commands
-from config.configParserTool import bot_token
-from config.configParserTool import log_level
-from config.configParserTool import url_tree_repo
-from config.configParserTool import class_parameter_value
-
-sys.path.append("../")
+from config.configParserTool import bot_token, log_level, url_tree_repo, class_parameter_value
 from functions.functions import *
 
-logging.basicConfig(level=log_level, format='%(asctime)s - %(levelname)s - %(message)s')
+# Logging configuration
+logging.basicConfig(level=log_level, format='%(asctime)s - %(levelname)s  - %(funcName)s - %(message)s')
 
-intents = discord.Intents.all()
-intents.messages = True
-
-bot = commands.Bot(command_prefix='!', intents=intents)
+# Obtain current path and current directory
 current_path = os.path.abspath(__file__)
 current_directory = os.path.dirname(os.path.abspath(__file__))
 logging.info(f"__file__ is: {current_path}")
 
+# Load keywords and responses from file
 file_path = os.path.join(current_directory, 'resources', 'keywords_responses.txt')
 with open(file_path, 'r') as file:
     keyword_responses = [line.strip().split(':') for line in file]
 
+# Discord.py bt configuration
+intents = discord.Intents.all()
+intents.messages = True
+bot = commands.Bot(command_prefix='!', intents=intents)
+
 
 @bot.event
 async def on_ready():
+    """Event handler called when the bot is ready."""
     print(f'Logged in as {bot.user.name} ({bot.user.id})')
 
 
 @bot.event
 async def on_message(message):
+    """Event handler called when a message is received."""
     if message.author.bot:
         return
     for keyword, response in keyword_responses:
@@ -49,11 +49,13 @@ async def on_message(message):
 
 @bot.command(name='ping')
 async def ping(ctx):
+    """Ping command to test bot's responsiveness."""
     await ctx.send('Pong!')
 
 
 @bot.command(name='clear')
 async def clear_messages(ctx, amount: str):
+    """Clears messages in the channel based on the provided argument."""
     if ctx.author.guild_permissions.manage_messages:
         if 'm' in amount:
             current_time = datetime.datetime.utcnow()
@@ -75,12 +77,14 @@ async def clear_messages(ctx, amount: str):
 
 @bot.command(name='cytat')
 async def cytat(ctx):
+    """Generates and sends a random quote."""
     singleQuote = random_quote_generator()
     await ctx.send(singleQuote)
 
 
 @bot.command(name='tree')
 async def generate_tree_img(ctx):
+    """Generates and sends an embedded image of a tree."""
     image_url = random_tree_generator_url(url_tree_repo, class_parameter_value)
     logging.info(f"Generated url of tree: {image_url}")
     embed = discord.Embed(title="Wonderful nature", colour=discord.Colour(0x00FF00))
@@ -90,6 +94,7 @@ async def generate_tree_img(ctx):
 
 @bot.command(name='fib')
 async def fib(ctx, arg: str = None):
+    """Calculates and sends the Fibonacci sequence up to the specified limit."""
     if arg is None:
         await ctx.send('Please add one argument, like !fib 100')
         logging.info('Please add one argument, like !fib 100')

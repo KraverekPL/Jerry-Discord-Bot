@@ -15,7 +15,7 @@ def fibonacci_sequence(number):  # write fibonacci sequence up to n
 
 
 def random_quote_generator():
-    """Displays popular quotes from the game show One of Ten"""
+    """Fetch quotes from a specified URL."""
     try:
         url = 'https://nonsa.pl/wiki/Cytaty:Jeden_z_dziesi%C4%99ciu'
         logging.info(f'Loading data for quates from {url}')
@@ -34,6 +34,7 @@ def random_quote_generator():
 
 
 def random_tree_generator_url(url, class_parm):
+    """Fetch a random tree image URL from a specified URL and class parameter."""
     url = str(url)
     logging.info(f'Loading tree images from {url}')
     try:
