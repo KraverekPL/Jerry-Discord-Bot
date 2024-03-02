@@ -10,7 +10,10 @@ configParserForSensitiveConfig.read("./config/sensitive_config.ini")
 
 
 # Sensitive data
-botToken = configParserForSensitiveConfig.get('DEFAULT', 'BOT_TOKEN', fallback='No key')
+bot_token = configParserForSensitiveConfig.get('DEFAULT', 'BOT_TOKEN')
 
 # Public config
-logLevel = configParserForPublicConfig.get('DEFAULT', 'log_level', fallback='No key')
+log_level = configParserForPublicConfig.get('DEFAULT', 'log_level')
+url_tree_repo = configParserForPublicConfig.get('DEFAULT', 'url_tree_images_repository')
+class_parameter_value = configParserForPublicConfig.get('DEFAULT', 'class_parameter_value')
+

@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from __main__ import logging
 import random
 
 
@@ -17,6 +18,7 @@ def random_quote_generator():
     """Displays popular quotes from the game show One of Ten"""
     try:
         url = 'https://nonsa.pl/wiki/Cytaty:Jeden_z_dziesi%C4%99ciu'
+        logging.info(f'Loading data for quates from {url}')
         allQuotes = []
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -30,3 +32,16 @@ def random_quote_generator():
     except Exception as e:
         return f'Exception during fetching quotes {e}'
 
+
+def random_tree_generator_url(url, class_parm):
+    url = str(url)
+    logging.info(f'Loading tree images from {url}')
+    try:
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        image_elements = soup.find_all('img', class_=str(class_parm))
+        random_img_element = random.choice(image_elements) if image_elements else None
+        image_url = random_img_element['src']
+        return image_url
+    except requests.RequestException as e:
+        return f'Exception during fetching quotes {e}'
