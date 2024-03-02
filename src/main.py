@@ -39,7 +39,7 @@ async def cytat(ctx):
 async def generate_tree_img(ctx):
     image_url = random_tree_generator_url(url_tree_repo, class_parameter_value)
     logging.info(f"Generated url of tree: {image_url}")
-    embed = discord.Embed(title="Random tree")
+    embed = discord.Embed(title="Wonderful nature", colour=discord.Colour(0x00FF00))
     embed.set_image(url=image_url)
     await ctx.send(embed=embed)
 
