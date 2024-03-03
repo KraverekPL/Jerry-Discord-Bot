@@ -53,7 +53,7 @@ The project includes utility functions for tasks such as generating random quote
 - Other dependencies specified in `requirements.txt`
 
 ## License
-This project is open source and available under a non-commercial license. You are free to use and modify the code for non-commercial purposes. For details, please refer to the [LICENSE](LICENSE) file.
+This project is open source and available under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](./LICENSE). You are free to use and modify the code for non-commercial purposes.
 
 ## Running the Bot
 Execute the script to run the bot: `python bot_script.py`
