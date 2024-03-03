@@ -35,6 +35,9 @@ Keywords and corresponding responses are loaded from the `resources/keywords_res
 5. **Fibonacci Sequence:**
    - `!fib <limit>`: Calculates and sends the Fibonacci sequence up to the specified limit.
 
+### Keyword Responses
+The bot also responds to specific keywords in messages. Check `resources/keywords_responses.txt` for the list of keywords and corresponding responses.
+
 ### Events
 - **on_ready:**
   - Event handler called when the bot is ready. Displays the bot's name and ID upon successful login.
